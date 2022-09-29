@@ -4,6 +4,7 @@ import ItemListContainer from '../components/ItemListContainer';
 import Home from '../pages/Home';
 import Layout from './Layout';
 import Cart from '../pages/Cart';
+import AddProducts from '../components/AddProducts';
 
 
 
@@ -15,6 +16,7 @@ const Router = () => (
                 <Route path='/categorias/:categoryId' element={<ItemListContainer />} />
                 <Route path='/producto/:productId' element={<ItemDetailContainer />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/createProduct" element={<AddProducts />} />
                 <Route path="*" element={<div>404</div>} />
             </Route>
         </Routes>

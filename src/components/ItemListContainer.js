@@ -1,33 +1,54 @@
 import React from 'react'
-import { productos } from '../app/productos'
 import { useState, useEffect } from 'react'
 import ItemList from './ItemList'
 import { useParams } from 'react-router'
+import { getItems } from '../app/api'
 
 const ItemListContainer = () => {
-    const [products, setProducts] = useState([]);
+    const [fire, setFire] = useState([]);
     const [loading, setLoading] = useState(true)
     const { categoryId } = useParams()
+
+
     useEffect(() => {
-        const getProducts = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(productos);
-            }, 2000);
-        });
-        getProducts.then((result) => {
+        getItems().then(res => {
+            const productFilter = res.filter((prod) => prod.categories === categoryId)
             if (categoryId) {
-                const productFilter = result.filter((prod) => prod.categories === categoryId)
-                setProducts(productFilter);
+                setFire(productFilter);
             } else {
-                setProducts(result)
+                setFire(res)
             }
             setLoading(false)
-        });
-        return () => {
-            setLoading(true)
-        }
-    }, [categoryId]);
-    return loading ? <p>LOADING...</p> : <ItemList products={products} />
+            return () => {
+                setLoading(true)
+            }
+        }, [categoryId])
+    })
+    return loading ? <p>loading..</p> : <ItemList products={fire} />
 }
+
+/* useEffect(() => {
+             const getProducts = new Promise((resolve, reject) => {
+                 setTimeout(() => {
+                     resolve(productos);
+                 }, 2000);
+             });
+             getProducts.then((result) => {
+                 if (categoryId) {
+                     setProducts(productFilter);
+                 } else {
+                     setProducts(result)
+                 }
+                 setLoading(false)
+             });
+             return () => {
+                 setLoading(true)
+             }
+         }, [categoryId]);
+         return loading ? <p>LOADING...</p> : <ItemList products={products} /> */
+
+
+
+
 
 export default ItemListContainer

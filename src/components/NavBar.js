@@ -23,6 +23,7 @@ const NavBar = () => {
                     )
 
                 }
+                <Link className='link' to="/createProduct">Add Item</Link>
             </ul>
         </div >
     )

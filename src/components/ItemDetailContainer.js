@@ -1,8 +1,9 @@
 import React from 'react'
-import { productos } from '../app/productos'
 import { useEffect, useState } from 'react'
 import ItemDetail from './ItemDetail'
 import { useParams } from 'react-router'
+import { getItemById } from '../app/api'
+
 
 const ItemDetailContainer = () => {
     const [product, setProduct] = useState({})
@@ -10,14 +11,8 @@ const ItemDetailContainer = () => {
     const { productId } = useParams()
 
     useEffect(() => {
-        const getProducts = new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(productos)
-            }, 2000)
-        })
-        getProducts.then((result) => {
-            const productFilter = result.filter((prod) => prod.id === parseInt(productId))
-            setProduct(productFilter[0])
+        getItemById(productId).then((res) => {
+            setProduct(res)
             setLoading(false)
         })
         return () => {
